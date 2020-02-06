@@ -19,7 +19,7 @@ fn main() {
     //sources.push(SOURCE_B);
 
     let mut window = Window::new(
-        "Double Slit Experiment",
+        "Interference Patterns (click to place a source)",
         WIDTH as usize,
         HEIGHT as usize,
         WindowOptions {
@@ -54,7 +54,7 @@ fn main() {
         if window.is_key_down(Key::Left) { intensity -= 1.0; }
         if window.is_key_down(Key::Right){ intensity += 1.0; }
 
-        if intensity > 100.0 { intensity = 100.0 }
+        if intensity > 150.0 { intensity = 100.0 }
         if intensity < 0.0   { intensity = 0.0 }
 
         for y in 0..HEIGHT {
