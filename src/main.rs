@@ -69,8 +69,12 @@ fn main() {
                     superpos += f32::sin(dist/SCALE - t);
                 }
 
-                buffer[WIDTH*y + x] = (superpos.abs() * intensity as f32) as u32;
+                let mut newIntensity = (superpos.abs() * intensity as f32) as u32;
+                if newIntensity > 255 {
+                    newIntensity = 255;
+                }
 
+                buffer[WIDTH*y + x] = newIntensity; 
                 //println!("{}", (f32::sin(dist_from_a*50.0).powf(2.0) * 10.0) as u32);
 
                 //buffer[WIDTH*y + x] = ((f32::sin(dist_from_a/5.0 - t) + f32::sin(dist_from_b/5.0 - t)).powf(2.0) * 50.0).round() as u32; //dist_from_a as u32;
