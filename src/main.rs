@@ -1,6 +1,6 @@
 extern crate minifb;
 
-use minifb::{Key, Window, WindowOptions, MouseMode, MouseButton};
+use minifb::{Key, Window, WindowOptions, MouseMode, MouseButton, Scale, ScaleMode};
 use std::{thread, time};
 
 const WIDTH: usize = 1000;
@@ -22,7 +22,13 @@ fn main() {
         "Double Slit Experiment",
         WIDTH as usize,
         HEIGHT as usize,
-        WindowOptions::default(),
+        WindowOptions {
+            borderless: false,
+            title: true,
+            resize: false,
+            scale: Scale::X2,
+            scale_mode: ScaleMode::AspectRatioStretch
+        }
     )
     .unwrap_or_else(|e| {
         panic!("{}", e);
