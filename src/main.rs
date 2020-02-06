@@ -44,7 +44,7 @@ fn main() {
     while window.is_open() && !window.is_key_down(Key::Escape) {
         let mouse = window.get_mouse_pos(MouseMode::Clamp).unwrap();
         if window.get_mouse_down(MouseButton::Left) {
-            println!("new source! at ({}, {})", mouse.0, mouse.1);
+            //println!("new source! at ({}, {})", mouse.0, mouse.1);
             sources.push(mouse);
             thread::sleep(time::Duration::from_millis(100));
         }
@@ -54,7 +54,7 @@ fn main() {
         if window.is_key_down(Key::Left) { intensity -= 1.0; }
         if window.is_key_down(Key::Right){ intensity += 1.0; }
 
-        if intensity > 150.0 { intensity = 100.0 }
+        if intensity > 150.0 { intensity = 150.0 }
         if intensity < 0.0   { intensity = 0.0 }
 
         for y in 0..HEIGHT {
