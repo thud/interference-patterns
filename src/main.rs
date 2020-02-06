@@ -32,6 +32,8 @@ fn main() {
     // window.limit_update_rate(Some(std::time::Duration::from_micros(16600)));
 
     let mut t: f32 = 0.0;
+    let mut dt: f32 = 0.1;
+    let mut intensity: f32 = 50.0;
 
     while window.is_open() && !window.is_key_down(Key::Escape) {
         let mouse = window.get_mouse_pos(MouseMode::Clamp).unwrap();
@@ -41,10 +43,18 @@ fn main() {
             thread::sleep(time::Duration::from_millis(100));
         }
 
+        if window.is_key_down(Key::Down) { dt -= 0.01; }
+        if window.is_key_down(Key::Up)   { dt += 0.01; }
+        if window.is_key_down(Key::Left) { intensity -= 1.0; }
+        if window.is_key_down(Key::Right){ intensity += 1.0; }
+
+        if intensity > 100.0 { intensity = 100.0 }
+        if intensity < 0.0   { intensity = 0.0 }
+
         for y in 0..HEIGHT {
             for x in 0..WIDTH {
-                let dist_from_a: f32 = ((x as f32 - SOURCE_A.0 as f32).powf(2.0) + (y as f32 - SOURCE_A.1 as f32).powf(2.0)).sqrt();
-                let dist_from_b: f32 = (((x as f32 - SOURCE_B.0 as f32).powf(2.0) + (y as f32 - SOURCE_B.1 as f32).powf(2.0))).sqrt();
+//                let dist_from_a: f32 = ((x as f32 - SOURCE_A.0 as f32).powf(2.0) + (y as f32 - SOURCE_A.1 as f32).powf(2.0)).sqrt();
+//                let dist_from_b: f32 = (((x as f32 - SOURCE_B.0 as f32).powf(2.0) + (y as f32 - SOURCE_B.1 as f32).powf(2.0))).sqrt();
 
                 let mut superpos: f32 = 0.0;
 
@@ -53,7 +63,7 @@ fn main() {
                     superpos += f32::sin(dist/SCALE - t);
                 }
 
-                buffer[WIDTH*y + x] = (superpos.powf(2.0) * 50.0) as u32;
+                buffer[WIDTH*y + x] = (superpos.abs() * intensity as f32) as u32;
 
                 //println!("{}", (f32::sin(dist_from_a*50.0).powf(2.0) * 10.0) as u32);
 
@@ -61,7 +71,7 @@ fn main() {
 
             }
         }
-        t += 0.3;
+        t += dt;
 
         // We unwrap here as we want this code to exit if it fails. Real applications may want to handle this in a different way
         window
